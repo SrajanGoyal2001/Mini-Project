@@ -12,8 +12,8 @@ This is a simple API-based weather application using Streamlit and OpenWeatherMa
 ## Setup
 1. Clone the repository:
 ```sh
-$ git clone https://github.com/your-repo/weather_app.git
-$ cd weather_app
+$ git clone https://github.com/SrajanGoyal2001/Mini-Project
+$ cd Mini-Project
 ```
 2. Install dependencies:
 ```sh
