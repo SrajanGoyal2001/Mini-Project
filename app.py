@@ -18,12 +18,8 @@ def main():
         check_weather_button = st.button("Get Weather")
 
         if check_weather_button:
-            # weather_data = get_weather_data(city)
-            # if weather_data:
-            #     display_weather_info(weather_data)
             if city:
                 weather_data = get_weather_data(city)
-            
                 if weather_data:
                     temperature = int(weather_data['main']['temp'])
                     temp_unit = "°C"
