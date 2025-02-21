@@ -1,6 +1,5 @@
 import streamlit as st
-import os
-from typing import Dict, Any
+
 
 def get_weather_icon(icon_code: str) -> str:
     """
@@ -13,10 +12,11 @@ def get_weather_icon(icon_code: str) -> str:
         str: The file path of the corresponding weather icon or a default icon.
     """
     icon_path = f"assets/weather_icons/{icon_code}.png"
-    return icon_path if os.path.exists(icon_path) else "assets/weather_icons/default.png"
+    return icon_path
+
 
 def display_weather(
-    weather_data: Dict[str, Any], temperature: float, temp_unit: str, rtemperature: float
+    weather_data: dict, temperature: float, temp_unit: str, real_feel_temperature: float
 ) -> None:
     """
     Displays the weather information with a structured layout.
@@ -25,7 +25,7 @@ def display_weather(
         weather_data (Dict[str, Any]): The weather data retrieved from the API.
         temperature (float): The current temperature.
         temp_unit (str): The unit of temperature (°C or °F).
-        rtemperature (float): The real feel temperature.
+        real_feel_temperature (float): The real feel temperature.
     
     Returns:
         None
@@ -33,7 +33,7 @@ def display_weather(
     st.subheader(
         f"**Weather in {weather_data['name']}, {weather_data['sys']['country']}**"
     )
-    
+
     weather_condition: str = weather_data['weather'][0]['description']
     col1, col2 = st.columns([1, 2])
 
@@ -50,12 +50,12 @@ def display_weather(
             unsafe_allow_html=True,
         )
         st.markdown(
-            f"<h5 style='color: gray;'>Real Feel: {rtemperature} {temp_unit}</h5>",
+            f"<h5 style='color: gray;'>Real Feel: {real_feel_temperature} {temp_unit}</h5>",
             unsafe_allow_html=True,
         )
 
-    humidity: int = weather_data['main']['humidity']
-    wind_speed: float = weather_data['wind']['speed']
+    humidity = weather_data['main']['humidity']
+    wind_speed = weather_data['wind']['speed']
 
     st.markdown(
         """

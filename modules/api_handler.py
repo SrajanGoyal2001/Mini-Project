@@ -5,10 +5,15 @@ import streamlit as st
 
 def get_weather_data(city: str) -> dict:
     """Fetches weather data from OpenWeatherMap API for a given city.
+
     Args:
-        city (string): The name of city.
+        city (str): The name of the city for which the weather data is to be fetched.
+
+    Returns:
+        dict: A dictionary containing the weather data if the request is successful.
+              The data includes information like temperature, humidity, weather description, etc.
+              Returns None if there is an error or failure in the request.
     """
-    
     url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
     try:
         response = requests.get(url)
