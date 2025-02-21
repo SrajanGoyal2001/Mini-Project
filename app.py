@@ -1,39 +1,36 @@
 import streamlit as st
 from modules.api_handler import get_weather_data
 from modules.ui_components import display_weather
-from modules.utils import celcius_to_fahrenheit
-
-# Apply page config for better design
-st.set_page_config(page_title="Weather App", page_icon="🌤️", layout="centered")
+from modules.utils import celsius_to_farenheit
 
 
 def main():
-    """Main function to run the Streamlit weather app."""
-    
-    # Add a title with custom styling
-    try:
-        st.markdown("<h1 style='text-align: center; color: #4A90E2;'>☁️ Weather App ☀️</h1>", unsafe_allow_html=True)
-    
-        city = st.text_input("🏙️ Enter city name:", "")
-        check_weather_button = st.button("Get Weather")
+    st.set_page_config(page_title="Weather App", page_icon="🌤️", layout="centered")
 
-        if check_weather_button:
-            if city:
-                weather_data = get_weather_data(city)
-                if weather_data:
-                    temperature = int(weather_data['main']['temp'])
-                    temp_unit = "°C"
-                    rtemperature = int(weather_data['main']['feels_like'])
-
-                    # Display weather data
-                    display_weather(weather_data, temperature, temp_unit, rtemperature)
-                
-            else:
-                raise Exception('Enter a valid city.')
-
-    except Exception as e:
-        st.error(str(e).title())
-
+    st.title("Weather App")
+    st.markdown("Enter a city to get the current weather details.")
+    st.session_state.first_time = True
+    # User input for city name
+    city = st.text_input("Enter City", "")
+    if city:
+        weather_data = get_weather_data(city)
+        if weather_data:
+            temperature = int(weather_data['main']['temp'])
+            temp_unit = "°C"
+            real_feel_temperature = int(weather_data['main']['feels_like'])
+            
+            if st.checkbox('Show temperature in Fahrenheit'):
+                temperature, real_feel_temperature = celsius_to_farenheit(temperature, real_feel_temperature)
+                temp_unit = "°F"
         
+            # Display weather data
+            display_weather(weather_data, temperature, temp_unit, real_feel_temperature)
+            st.session_state.first_time = False
+        else:
+            st.error("Unable to fetch weather data. Please check the city name or try again later.")
+    if not city and not st.session_state.first_time:
+        st.error("He")
+
+
 if __name__ == "__main__":
     main()
