@@ -26,8 +26,7 @@ def main():
             # Display weather data
             display_weather(weather_data, temperature, temp_unit, real_feel_temperature)
             st.session_state.first_time = False
-        else:
-            st.error("Unable to fetch weather data. Please check the city name or try again later.")
+       
     if not city and not st.session_state.first_time:
         st.error("He")
 
